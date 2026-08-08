@@ -30,12 +30,17 @@ jobs:
     - name: Install Capacitor
       run: |
         npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
-        npx cap init "Kafe Tycoon" "com.iozgames.kafetycoon" --web-dir public
+        npx cap init "IOZ Cafe Tycoon" "com.iozgames.kafetycoon" --web-dir public
 
     - name: Add Android Platform
       run: |
         npx cap add android
         npx cap copy android
+
+    - name: Generate App Icons
+      run: |
+        npm install -D @capacitor/assets
+        npx @capacitor/assets generate --iconOnly --logo public/icon.svg
 
     - name: Fix Android Permissions & Build
       run: |
