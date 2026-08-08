@@ -37,11 +37,6 @@ jobs:
         npx cap add android
         npx cap copy android
 
-    - name: Generate App Icons
-      run: |
-        npm install -D @capacitor/assets
-        npx @capacitor/assets generate --iconOnly --logo public/icon.svg
-
     - name: Fix Android Permissions & Build
       run: |
         cd android
