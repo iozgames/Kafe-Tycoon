@@ -16,33 +16,33 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 18
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
 
     - name: Install Dependencies
       run: npm install
 
     - name: Install Capacitor
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
         npx cap init "Kafe Tycoon" "com.iozgames.kafetycoon" --web-dir public
 
-    - name: Build Web Assets & Add Android
+    - name: Add Android Platform
       run: |
         npx cap add android
         npx cap copy android
 
-    - name: Setup Java JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-
-    - name: Build Android APK & AAB
+    - name: Fix Android Permissions & Build
       run: |
         cd android
         chmod +x gradlew
-        ./gradlew assembleDebug --no-daemon
-        ./gradlew bundleRelease --no-daemon
+        ./gradlew assembleDebug --warning-mode all
+        ./gradlew bundleRelease --warning-mode all
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
